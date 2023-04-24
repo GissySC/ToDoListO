@@ -9,6 +9,24 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: AuthView,
+      childres: [
+        {
+          path: 'sign-in',
+          name: 'sign-in',
+          component: SignIn,
+        },
+        {
+          path: 'sign-up',
+          name: 'sign-up',
+          component: SignUp,
+        }
+      ]
+      
+    }
   
   ]
 })
