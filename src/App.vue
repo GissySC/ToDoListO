@@ -1,17 +1,26 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { mapActions } from 'pinia';
+import TaskStore from './stores/tasks';
 
 export default {
   name: "App",
+  components: {
+    HelloWorld
+  },
+  methods: {
+    ...mapActions(TaskStore, ['_fetchAllTasks'])
+  },
+  created() {
+    console.log('Created HelloWorld')
+    this._fetchAllTasks()
+  },
 }
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
+      <HelloWorld msg="You did it!" />
     </div>
   </header>
 

@@ -4,7 +4,12 @@ import { mapActions, mapState } from 'pinia';
  
 export default {
   name: "HomeView",
-  components: [
+  data() {
+    return {
+      newTaskTitle: '',
+    }
+  },
+  computed: [
     ...mapState(ToDoStores, ['tasksList']) 
   ],
   methods: {
@@ -20,6 +25,9 @@ export default {
 <template>
   <main>
     <h1>Home View</h1>
-    <p v-for="todo in tasksList" :key="todo.id">{{ todo.title }}</p>
+    <div>
+      <p v-for="todo in tasksList" :key="todo.id">{{ todo.title }}</p>
+        <button @click="_addNewTask({ title: 'New task', userId: ''})">Create Task</button>
+  </div>
   </main>
 </template>
