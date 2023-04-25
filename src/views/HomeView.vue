@@ -9,9 +9,9 @@ export default {
       newTaskTitle: '',
     }
   },
-  computed: [
+  computed: {
     ...mapState(ToDoStores, ['tasksList']) 
-  ],
+  },
   methods: {
     ...mapActions(ToDoStores, ['_fetchAllTasks'])
   },

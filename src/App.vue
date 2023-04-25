@@ -1,30 +1,42 @@
 <script>
-import { mapActions } from 'pinia';
-import TaskStore from './stores/tasks';
+import { mapActions, mapState } from 'pinia';
+import UserStore from '@/stores/user'
 
 export default {
   name: "App",
-  components: {
-    HelloWorld
+  computed: {
+    ...mapState(UserStore, ['user']),
   },
   methods: {
-    ...mapActions(TaskStore, ['_fetchAllTasks'])
+    ...mapActions(UserStore, ['fetchUser']),
+    _checkUserExists() {
+      console.log(this.user)
+      if (this.user) {
+        this.$router.push({ path: '/' });
+      } else {
+        this.$router.push({ path: '/auth/sign-in '});
+      }
+    }
   },
-  created() {
-    console.log('Created HelloWorld')
-    this._fetchAllTasks()
+  async created() {
+    try {
+      await this.fetchUser();
+      this._checkUserExists()
+    } catch (e) {
+      console.error(e);
+      this._checkUserExists()
+    }
+  },
+  watch: {
+    user() {
+      this._checkUserExists()
+    },
   },
 }
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <RouterView />
+ <RouterView />
 </template>
 
 <style scoped>
