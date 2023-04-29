@@ -1,7 +1,17 @@
 <template>
-    <h1>Vista SignIn</h1>
-    <button @click="handleSignIn">SignIn</button>
-    <RouterLink to="/auth/sign-up">SignUp</RouterLink>
+    <h1>Sign In</h1>
+    <form @submit.prevent="handleSignIn">
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" v-model="email" v-validate="'required|email'">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" v-model="password"  required>
+        </div>
+        <button type="submit">Sign In</button>
+    </form>
+    <RouterLink to="/auth/sign-up">Sign Up</RouterLink>
 </template>
 
 <script>
@@ -17,10 +27,10 @@ export default {
         ...mapActions(userStore, ['signIn']),
         handleSignIn() {
             const userData = {
-                email: 'gisselasobenes@gmail.com',
-                password: 'lerelere',
+                email: this.email,
+                password: this.password,
             };
-            this.signIn(userData.email, userData.password);
+            this.signIn(userData);
         },
     },
 };

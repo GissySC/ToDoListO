@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import UserStore from '@/stores/user'
+import TaskStore from '@/stores/tasks ';
+import UserStore from '@/stores/user';
 
 export default {
   name: "App",
@@ -8,13 +9,14 @@ export default {
     ...mapState(UserStore, ['user']),
   },
   methods: {
+    ...mapActions(TaskStore, ['_fetchAllTasks']),
     ...mapActions(UserStore, ['fetchUser']),
     _checkUserExists() {
       console.log(this.user)
       if (this.user) {
         this.$router.push({ path: '/' });
       } else {
-        this.$router.push({ path: '/auth/sign-in '});
+        this.$router.push({ path: '/auth/sign-in'});
       }
     }
   },
@@ -36,6 +38,7 @@ export default {
 </script>
 
 <template>
+
  <RouterView />
 </template>
 
