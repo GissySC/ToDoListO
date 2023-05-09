@@ -40,6 +40,13 @@ export default defineStore('tasks', {
 
       console.log('New task --->', data)
       this.tasksList.push(...data)
+    },
+    async addNewTitle() {
+      await this._addNewTask({
+        title: this.newTaskTitle,
+        userId: this.user.id
+      })
+      this.newTaskTitle = '';
     }
-    }
+  }
 })
