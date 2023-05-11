@@ -38,10 +38,31 @@ export default {
 </script>
 
 <template>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ToDoList-O</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
  <RouterView />
+
 </template>
 
 <style scoped>
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -52,14 +73,6 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text, green);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
 }
 
 nav a {
