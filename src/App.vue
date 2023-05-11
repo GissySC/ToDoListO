@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import TaskStore from '@/stores/tasks ';
+import TaskStore from '@/stores/tasks';
 import UserStore from '@/stores/user';
 
 export default {
