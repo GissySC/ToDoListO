@@ -20,6 +20,12 @@ import userStore from '@/stores/user';
 
 export default {
     name: 'SignIn',
+    data() {
+        return {
+            email: '',
+            password: '',
+        }
+    },
     computed: {
         ...mapState(userStore, ['user']),
     },

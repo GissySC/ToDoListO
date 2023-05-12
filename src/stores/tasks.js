@@ -28,7 +28,7 @@ export default defineStore('tasks', {
       }
     },
     async _addNewTask({ title, userId }) {
-      const { data, error} = await supabase
+      const { data, error } = await supabase
       .from('tasks')
       .insert({ title, user_id: userId })
       .select();
@@ -39,14 +39,59 @@ export default defineStore('tasks', {
       }
 
       console.log('New task --->', data)
+      
       this.tasksList.push(...data)
     },
-    async addNewTitle() {
-      await this._addNewTask({
-        title: this.newTaskTitle,
-        userId: this.user.id
+    async _editTitle({ title, id }) {
+      const { error } = await supabase
+      .from('tasks')
+      .update({ title })
+      .eq('id', id)
+
+      if(error) {
+        console.error(error);
+        return;
+      }
+
+      this.tasksList = this.tasksList.map((task) => {
+        if (task.id === id) {
+          return { ...task, title: title }
+        } else {
+          return task
+        }
       })
-      this.newTaskTitle = '';
+    },
+    async _completeTask(isComplete, id) {
+      const { error } = await supabase
+        .from('tasks')
+        .update({ is_complete: !isComplete })
+        .eq('id', id)
+    
+      if (error) {
+        console.error(error)
+        return;
+      }
+    
+      const task = this.tasksList.find((task) => task.id === id)
+      if (task) {
+        task.is_complete = !isComplete
+      }
+    },
+    async _deleteTask(id) {
+      const { error } = await supabase
+        .from('tasks')
+        .delete()
+        .eq('id', id)
+    
+      if (error) {
+        console.error(error)
+        return
+      }
+    
+      const index = this.tasksList.findIndex((task) => task.id === id)
+      if (index > -1) {
+        this.tasksList.splice(index, 1)
+      }
     }
   }
 })
