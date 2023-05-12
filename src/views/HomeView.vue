@@ -2,6 +2,8 @@
 import TaskStore from '@/stores/tasks.js';
 import UserStore from '@/stores/user.js';
 import { mapActions, mapState } from 'pinia';
+import CurrentDate from '../components/CurrentDate.vue';
+import CurrentTime from '../components/CurrentTime.vue';
  
 export default {
   name: "HomeView",
@@ -12,6 +14,10 @@ export default {
       taskIdToEdit: '',
       isEditing: false,
     }
+  },
+  components: {
+    CurrentDate,
+    CurrentTime,
   },
   computed: {
     ...mapState(TaskStore, ['tasksList']),
@@ -53,9 +59,8 @@ export default {
 
 <template>
   <div>
-
-    <RouterLink to="/auth/sign-in">Sign Out</RouterLink>
-
+    <CurrentTime/>
+    <CurrentDate/>
     <main>
       <h1>My list</h1>
       <div>
