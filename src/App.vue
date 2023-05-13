@@ -1,73 +1,75 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { mapActions, mapState } from 'pinia';
+import TaskStore from '@/stores/tasks';
+import UserStore from '@/stores/user';
+
 
 export default {
   name: "App",
+  computed: {
+    ...mapState(UserStore, ['user']),
+  },
+  methods: {
+    ...mapActions(TaskStore, ['_fetchAllTasks']),
+    ...mapActions(UserStore, ['fetchUser']),
+    _checkUserExists() {
+      console.log(this.user)
+      if (this.user) {
+        this.$router.push({ path: '/' });
+      } else {
+        this.$router.push({ path: '/auth/sign-in'});
+      }
+    }
+  },
+  async created() {
+    try {
+      await this.fetchUser();
+      this._checkUserExists()
+    } catch (e) {
+      console.error(e);
+      this._checkUserExists()
+    }
+  },
+  watch: {
+    user() {
+      this._checkUserExists()
+    },
+  },
 }
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="bg-container">
+    <RouterView />
+    <font-awesome-icon icon="fa-solid fa-user-secret" />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style>
+
+html, body {
+  height: 100vh;
 }
 
-nav {
+.bg-container {
+  background-color: #fff;
+  height: 100vh;
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  background-image: linear-gradient(60deg, #7fffd4, yellow, lightgreen, #e24bce);
+  background-size: 600% 600%;
+  animation: bgAnimatedGradient 10s infinite linear;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text, green);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+@keyframes bgAnimatedGradient{
+  0% {
+    background-position: 0 85%;
   }
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  50% {
+    background-position: 100% 20%;
+  }
+  100% {
+    background-position: 0 85%;
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 </style>
