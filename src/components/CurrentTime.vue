@@ -31,10 +31,15 @@
   
   <style scoped>
   p {
-    font-size: 24px;
-    font-weight: bold;
-    position: fixed;
-    right: 20px;
-    top: 100px;
+    font-size: 20px;
+    z-index: 2;
+    color: aliceblue;
   }
+
+  @media (min-device-width : 320px) and (max-device-width : 480px) {
+    p {
+        font-size: 15px;
+    }
+  }
+  
   </style>
